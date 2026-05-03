@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-04-22T06:58:05.278865Z",
+  "jsonl_source": "F:\\Desktop\\ai-health-adviser\\data\\pages.jsonl",
+  "output_dir": "F:\\Desktop\\ai-health-adviser\\chunks",
+  "cfg": {
+    "chunk_size": 1100,
+    "chunk_overlap": 180,
+    "keep_as_is_under": 900,
+    "snap_window": 160,
+    "separators": [
+      "\n\n",
+      "\n",
+      ". ",
+      "? ",
+      "! ",
+      "; ",
+      ", ",
+      " "
+    ]
+  },
+  "counts": {
+    "section_docs_in": 579,
+    "chunks_out": 610
+  },
+  "lengths_chars": {
+    "min": 61,
+    "max": 1079,
+    "avg": 401.3
+  },
+  "chunks_by_disease_top20": [
+    [
+      "Obesity",
+      127
+    ],
+    [
+      "Asthma",
+      112
+    ],
+    [
+      "Flu",
+      84
+    ],
+    [
+      "Common Cold",
+      72
+    ],
+    [
+      "Heartburn And Acid Reflux",
+      64
+    ],
+    [
+      "Chronic Obstructive Pulmonary Disease Copd",
+      63
+    ],
+    [
+      "Type 2 Diabetes",
+      32
+    ],
+    [
+      "Irritable Bowel Syndrome Ibs",
+      25
+    ],
+    [
+      "Generalised Anxiety Disorder Gad",
+      17
+    ],
+    [
+      "High Blood Pressure Hypertension",
+      14
+    ]
+  ]
+}
