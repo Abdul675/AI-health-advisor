@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "";
 
 export function renderAIChat(app) {
     const container = document.createElement('div');
@@ -178,7 +178,7 @@ export function renderAIChat(app) {
             if (err.name === 'AbortError') {
                 addMessage(`<p style="margin:0;color:#ef4444;">⚠️ The request timed out (60s). The server may be busy — please try again.</p>`);
             } else {
-                addMessage(`<p style="margin:0;color:#ef4444;">⚠️ Could not reach the server. Make sure the backend is running on port 8000 and check the backend console for AI chat logs.</p>`);
+                addMessage(`<p style="margin:0;color:#ef4444;">⚠️ Could not reach the server. Please try again later.</p>`);
             }
             console.error('Chat API error:', err);
 

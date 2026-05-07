@@ -1,10 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
 import os
-
 from app.routers import FindDoctors
 from app.routers import AI_chat
 from app.routers import report_explainer
@@ -22,7 +23,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+MONGO_URI = os.getenv("MONGO_URI")
+if not MONGO_URI:
+    raise Exception("MONGO_URI not set in environment variables")
+
 client: AsyncIOMotorClient = None
 
 @app.on_event("startup")
@@ -37,20 +41,25 @@ async def shutdown():
     client.close()
     print("MongoDB disconnected")
 
+# ── API Routers first (must be before static mount) ──
 app.include_router(FindDoctors.router)
 app.include_router(AI_chat.router)
 app.include_router(report_explainer.router)
 app.include_router(Health_plan.router)
 app.include_router(symptomschecker.router)
 
-@app.get("/", tags=["Health"])
-async def root():
-    return {"status": "Healthcare API running"}
+# ── Serve index.html at root ──
+@app.get("/", response_class=FileResponse)
+async def serve_frontend():
+    return FileResponse("/app/index.html")
+
+# ── Serve all JS, CSS, and other static files ──
+app.mount("/", StaticFiles(directory="/app", html=True), name="static")
 
 if __name__ == "__main__":
     uvicorn.run(
-        "main:app",
-        host="127.0.0.1",
-        port=8000,
+        "app.main:app",
+        host="0.0.0.0",
+        port=8080,
         reload=False,
     )

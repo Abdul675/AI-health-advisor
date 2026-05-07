@@ -1,10 +1,11 @@
 import os
-from dotenv import load_dotenv
-from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Tuple
+from pathlib import Path
+from dotenv import load_dotenv
 
 load_dotenv()
+
 
 
 @dataclass
@@ -19,23 +20,18 @@ class ChunkingConfig:
 
 
 class Settings:
+    # REQUIRED ENV VARS (NO DEFAULTS)
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
-    GROQ_API_KEY : str  = os.getenv("GROQ_API_KEY")
+    GROQ_API_KEY: str = os.getenv("GROQ_API_KEY")
 
-    # Path to your JSONL dataset file
-    # Set in .env as:  JSONL_PATH=F:\Desktop\ai-health-adviser\data\pages.jsonl
-    JSONL_PATH: Path = Path(os.getenv("JSONL_PATH", "")).resolve()
-    # add this to your Settings class
-    # add this to your Settings class
-    CHUNKS_PATH: Path = Path(os.getenv("CHUNKS_PATH", "chunks/chunks.jsonl")).resolve()
+    MONGO_URI: str = os.getenv("MONGO_URI")
+    QDRANT_URL: str = os.getenv("QDRANT_URL")
+    QDRANT_API_KEY: str = os.getenv("QDRANT_API_KEY")
 
-    # Folder where ChromaDB will save chunks + vectors to disk
-    # Auto-created on first run. Delete to force a full rebuild.
-    # Set in .env as:  CHROMA_DIR=F:\Desktop\ai-health-adviser\chroma_db
-    QDRANT_URL: str = os.getenv("QDRANT_URL", "http://localhost:6333")
-    MONGO_URI: str = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+    # Paths (optional local only)
+    JSONL_PATH: Path = Path(os.getenv("JSONL_PATH", "data/pages.jsonl"))
+    CHUNKS_PATH: Path = Path(os.getenv("CHUNKS_PATH", "chunks/chunks.jsonl"))
 
-    # Chunking config — override individual fields via .env if needed
     CHUNKING: ChunkingConfig = ChunkingConfig(
         chunk_size=int(os.getenv("CHUNK_SIZE", 1100)),
         chunk_overlap=int(os.getenv("CHUNK_OVERLAP", 180)),
@@ -44,4 +40,15 @@ class Settings:
     )
 
 
+# Safety check (VERY IMPORTANT)
 settings = Settings()
+if not settings.QDRANT_URL:
+    raise ValueError("QDRANT_URL is not set in environment variables")
+
+if not settings.MONGO_URI:
+    raise ValueError("MONGO_URI is not set in environment variables")
+
+
+
+if not settings.OPENAI_API_KEY:
+    raise ValueError("OPENAI_API_KEY is not set in environment variables")

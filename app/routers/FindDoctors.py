@@ -23,7 +23,7 @@ PRICE_RANGES = {
 # ─────────────────────────────────────────────
 def get_collection(request: Request) -> AsyncIOMotorCollection:
     client: AsyncIOMotorClient = request.app.state.db_client
-    return client["Doctor_record"]["Doctor_collection"]
+    return client["doctordatabase"]["doctorcollection"]
 
 # ─────────────────────────────────────────────
 #  Response Model

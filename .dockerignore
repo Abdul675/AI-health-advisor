@@ -1,0 +1,32 @@
+# --- 1. Python Environment & UV ---
+# Excluding myenv and .venv to save space on your 128GB SSD
+myenv/
+.venv/
+__pycache__/
+*.py[cod]
+.python-version
+requirements.txt
+
+# --- 2. Project Specific Data ---
+# Excluding data and chunks (usually large PDF/text files)
+data/
+chunks/
+temp_data/
+
+# --- 3. IDEs & Local Config ---
+.vscode/
+.idea/
+.env
+.env.example
+*.swp
+
+# --- 4. Version Control & Docs ---
+.git/
+.gitignore
+LICENSE
+README.md
+
+# --- 5. OS Trash & Logs ---
+.DS_Store
+Thumbs.db
+*.log
